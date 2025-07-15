@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Quản trị</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Trang quản trị</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    @Html.ActionLink("Người dùng", "Index", "NguoiDungs", new { area = "Admin" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Sản phẩm", "Index", "Mon", new { area = "Admin" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Nhóm món", "Index", "NhomMon", new { area = "Admin" }, new { @class = "nav-link" })
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        @RenderBody()
+    </div>
+
+    <footer class="text-center mt-4 mb-3">
+        <p>&copy; @DateTime.Now.Year - Admin Panel</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

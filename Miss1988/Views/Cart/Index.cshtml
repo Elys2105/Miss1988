@@ -1,0 +1,176 @@
+﻿@model Miss1988.Models.ViewModel.CartVM
+
+<style>
+    .cart-container {
+        background-color: #f8f4f1;
+        padding: 40px;
+        border-radius: 12px;
+        max-width: 1200px;
+        margin: 40px auto;
+        display: flex;
+        gap: 50px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .cart-left, .cart-right {
+        flex: 1;
+    }
+
+    .cart-left h2 {
+        font-size: 28px;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .cart-table th, .cart-table td {
+        padding: 16px 8px;
+        border-bottom: 1px solid #ddd;
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .cart-product-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+    .qty-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .qty-form input[type="number"] {
+        width: 50px;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .qty-form button, .remove-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .remove-btn {
+        color: #d9534f;
+        font-weight: bold;
+    }
+
+    .cart-right {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+    }
+
+    .cart-summary h4 {
+        font-weight: 400;
+        font-size: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 10px;
+    }
+
+    .cart-summary p {
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        margin: 8px 0;
+    }
+
+    .total-box {
+        background-color: #f0e6dd;
+        padding: 12px;
+        font-weight: bold;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        border-radius: 6px;
+    }
+
+    .checkout-btn {
+        margin-top: 20px;
+        background-color: #000;
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        width: 100%;
+        border-radius: 6px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    .checkout-btn:hover {
+        background-color: #333;
+    }
+</style>
+
+<div class="cart-container">
+    <div class="cart-left">
+        <h2>Your Bag</h2>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Products</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.ImageUrl" alt="@item.ProductName" class="cart-product-img" />
+                        </td>
+                        <td>@item.ProductName</td>
+                        <td>
+                            <form method="post" action="@Url.Action("UpdateQuantity")" class="qty-form">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <input type="number" name="quantity" value="@item.Quantity" min="1" />
+                                <button type="submit">↻</button>
+                            </form>
+                        </td>
+                        <td>@string.Format("{0:N0} ₫", item.UnitPrice)</td>
+                        <td>
+                            <form method="post" action="@Url.Action("RemoveFromCart")">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="remove-btn">×</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="cart-right">
+        <div class="cart-summary">
+            <h4>Order Summary</h4>
+            <p><span>@Model.Items.Count sản phẩm</span><span>@Model.Items.Sum(i => i.UnitPrice * i.Quantity):N0 ₫</span></p>
+            <p><span>Phí vận chuyển</span><span>0 ₫</span></p>
+            <div class="total-box">
+                <span>Total</span>
+                <span>@string.Format("{0:N0} ₫", Model.TotalAmount)</span>
+            </div>
+            <form action="@Url.Action("Checkout", "Cart")" method="get">
+                <button type="submit" class="checkout-btn">Checkout</button>
+            </form>
+        </div>
+    </div>
+</div>

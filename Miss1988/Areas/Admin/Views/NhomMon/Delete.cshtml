@@ -1,0 +1,18 @@
+﻿@model Miss1988.Models.NhomMon
+
+@{
+    ViewBag.Title = "Xác nhận xóa nhóm món";
+}
+
+<h3>Bạn có chắc chắn muốn xóa nhóm món "@Model.TenNhom"?</h3>
+
+@using (Html.BeginForm("Delete", "NhomMon", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.NhomMonID)
+
+    <div class="form-group">
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        @Html.ActionLink("Hủy", "Index", null, new { @class = "btn btn-default" })
+    </div>
+}

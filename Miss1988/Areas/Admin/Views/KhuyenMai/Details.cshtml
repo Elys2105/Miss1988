@@ -1,0 +1,14 @@
+﻿@model Miss1988.Models.KhuyenMai
+@{
+    ViewBag.Title = "Chi tiết khuyến mãi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="bg-success">@ViewBag.Title</h2>
+
+@Html.Partial("PVKhuyenMaiInfo", Model)
+
+<div style="padding:10px">
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.KhuyenMaiID }, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default btn-sm" })
+</div>

@@ -1,0 +1,620 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CNPMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChiTietOrder">
+          <Key>
+            <PropertyRef Name="CTOrderID" />
+          </Key>
+          <Property Name="CTOrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="MonID" Type="int" Nullable="false" />
+          <Property Name="SoLuong" Type="int" Nullable="false" />
+          <Property Name="TrangThai" Type="nvarchar" MaxLength="50" />
+          <Property Name="ThoiGianHoanTat" Type="datetime" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="KhachHangID" />
+          </Key>
+          <Property Name="KhachHangID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="SoDienThoai" Type="nvarchar" MaxLength="20" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="255" />
+          <Property Name="NgayDangKy" Type="date" />
+          <Property Name="DiemTichLuy" Type="int" />
+        </EntityType>
+        <EntityType Name="KhuyenMai">
+          <Key>
+            <PropertyRef Name="KhuyenMaiID" />
+          </Key>
+          <Property Name="KhuyenMaiID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaVoucher" Type="nvarchar" MaxLength="50" />
+          <Property Name="MoTa" Type="nvarchar" MaxLength="255" />
+          <Property Name="GiaTriGiam" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="KieuGiam" Type="nvarchar" MaxLength="20" />
+          <Property Name="NgayBatDau" Type="date" />
+          <Property Name="NgayKetThuc" Type="date" />
+          <Property Name="SoLanSuDungToiDa" Type="int" />
+          <Property Name="DieuKienApDung" Type="nvarchar" MaxLength="255" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Mon">
+          <Key>
+            <PropertyRef Name="MonID" />
+          </Key>
+          <Property Name="MonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenMon" Type="nvarchar" MaxLength="100" />
+          <Property Name="MoTa" Type="nvarchar" MaxLength="255" />
+          <Property Name="GiaBan" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SoLuong" Type="int" />
+          <Property Name="TinhTrang" Type="bit" />
+          <Property Name="NhomMonID" Type="int" />
+          <Property Name="NgayTao" Type="date" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="NguoiDung">
+          <Key>
+            <PropertyRef Name="NguoiDungID" />
+          </Key>
+          <Property Name="NguoiDungID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="MatKhau" Type="nvarchar" MaxLength="255" />
+          <Property Name="NgayTao" Type="date" />
+          <Property Name="QuyenID" Type="int" />
+          <Property Name="TrangThai" Type="bit" />
+        </EntityType>
+        <EntityType Name="NhomMon">
+          <Key>
+            <PropertyRef Name="NhomMonID" />
+          </Key>
+          <Property Name="NhomMonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNhom" Type="nvarchar" MaxLength="100" />
+          <Property Name="MoTa" Type="nvarchar" MaxLength="255" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NgayTao" Type="datetime" Nullable="false" />
+          <Property Name="TrangThai" Type="nvarchar" MaxLength="50" />
+          <Property Name="ChiNhanhID" Type="int" />
+          <Property Name="NguoiDungID" Type="int" />
+          <Property Name="KhachHangID" Type="int" />
+          <Property Name="KhuyenMaiID" Type="int" />
+        </EntityType>
+        <EntityType Name="PhanQuyen">
+          <Key>
+            <PropertyRef Name="QuyenID" />
+          </Key>
+          <Property Name="QuyenID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenQuyen" Type="nvarchar" MaxLength="50" />
+          <Property Name="MoTa" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__ChiTietOr__MonID__2645B050">
+          <End Role="Mon" Type="Self.Mon" Multiplicity="1" />
+          <End Role="ChiTietOrder" Type="Self.ChiTietOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mon">
+              <PropertyRef Name="MonID" />
+            </Principal>
+            <Dependent Role="ChiTietOrder">
+              <PropertyRef Name="MonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChiTietOr__Order__25518C17">
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="1" />
+          <End Role="ChiTietOrder" Type="Self.ChiTietOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDER">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="ChiTietOrder">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mon__NhomMonID__114A936A">
+          <End Role="NhomMon" Type="Self.NhomMon" Multiplicity="0..1" />
+          <End Role="Mon" Type="Self.Mon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomMon">
+              <PropertyRef Name="NhomMonID" />
+            </Principal>
+            <Dependent Role="Mon">
+              <PropertyRef Name="NhomMonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__NguoiDung__Quyen__160F4887">
+          <End Role="PhanQuyen" Type="Self.PhanQuyen" Multiplicity="0..1" />
+          <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhanQuyen">
+              <PropertyRef Name="QuyenID" />
+            </Principal>
+            <Dependent Role="NguoiDung">
+              <PropertyRef Name="QuyenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDER__KhachHang__2180FB33">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="KhachHangID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="KhachHangID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDER__KhuyenMai__22751F6C">
+          <End Role="KhuyenMai" Type="Self.KhuyenMai" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhuyenMai">
+              <PropertyRef Name="KhuyenMaiID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="KhuyenMaiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDER__NguoiDung__208CD6FA">
+          <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NguoiDung">
+              <PropertyRef Name="NguoiDungID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="NguoiDungID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CNPMModelStoreContainer">
+          <EntitySet Name="ChiTietOrder" EntityType="Self.ChiTietOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhuyenMai" EntityType="Self.KhuyenMai" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mon" EntityType="Self.Mon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NguoiDung" EntityType="Self.NguoiDung" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhomMon" EntityType="Self.NhomMon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ORDER" EntityType="Self.ORDER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhanQuyen" EntityType="Self.PhanQuyen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ChiTietOr__MonID__2645B050" Association="Self.FK__ChiTietOr__MonID__2645B050">
+            <End Role="Mon" EntitySet="Mon" />
+            <End Role="ChiTietOrder" EntitySet="ChiTietOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChiTietOr__Order__25518C17" Association="Self.FK__ChiTietOr__Order__25518C17">
+            <End Role="ORDER" EntitySet="ORDER" />
+            <End Role="ChiTietOrder" EntitySet="ChiTietOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mon__NhomMonID__114A936A" Association="Self.FK__Mon__NhomMonID__114A936A">
+            <End Role="NhomMon" EntitySet="NhomMon" />
+            <End Role="Mon" EntitySet="Mon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__NguoiDung__Quyen__160F4887" Association="Self.FK__NguoiDung__Quyen__160F4887">
+            <End Role="PhanQuyen" EntitySet="PhanQuyen" />
+            <End Role="NguoiDung" EntitySet="NguoiDung" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDER__KhachHang__2180FB33" Association="Self.FK__ORDER__KhachHang__2180FB33">
+            <End Role="KhachHang" EntitySet="KhachHang" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDER__KhuyenMai__22751F6C" Association="Self.FK__ORDER__KhuyenMai__22751F6C">
+            <End Role="KhuyenMai" EntitySet="KhuyenMai" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDER__NguoiDung__208CD6FA" Association="Self.FK__ORDER__NguoiDung__208CD6FA">
+            <End Role="NguoiDung" EntitySet="NguoiDung" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CNPMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ChiTietOrder">
+          <Key>
+            <PropertyRef Name="CTOrderID" />
+          </Key>
+          <Property Name="CTOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="MonID" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" Nullable="false" />
+          <Property Name="TrangThai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ThoiGianHoanTat" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Mon" Relationship="Self.FK__ChiTietOr__MonID__2645B050" FromRole="ChiTietOrder" ToRole="Mon" />
+          <NavigationProperty Name="ORDER" Relationship="Self.FK__ChiTietOr__Order__25518C17" FromRole="ChiTietOrder" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="KhachHangID" />
+          </Key>
+          <Property Name="KhachHangID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HoTen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SoDienThoai" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DiaChi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NgayDangKy" Type="DateTime" Precision="0" />
+          <Property Name="DiemTichLuy" Type="Int32" />
+          <NavigationProperty Name="ORDERs" Relationship="Self.FK__ORDER__KhachHang__2180FB33" FromRole="KhachHang" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="KhuyenMai">
+          <Key>
+            <PropertyRef Name="KhuyenMaiID" />
+          </Key>
+          <Property Name="KhuyenMaiID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaVoucher" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="GiaTriGiam" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="KieuGiam" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NgayBatDau" Type="DateTime" Precision="0" />
+          <Property Name="NgayKetThuc" Type="DateTime" Precision="0" />
+          <Property Name="SoLanSuDungToiDa" Type="Int32" />
+          <Property Name="DieuKienApDung" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ORDERs" Relationship="Self.FK__ORDER__KhuyenMai__22751F6C" FromRole="KhuyenMai" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="Mon">
+          <Key>
+            <PropertyRef Name="MonID" />
+          </Key>
+          <Property Name="MonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenMon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="GiaBan" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SoLuong" Type="Int32" />
+          <Property Name="TinhTrang" Type="Boolean" />
+          <Property Name="NhomMonID" Type="Int32" />
+          <Property Name="NgayTao" Type="DateTime" Precision="0" />
+          <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ChiTietOrders" Relationship="Self.FK__ChiTietOr__MonID__2645B050" FromRole="Mon" ToRole="ChiTietOrder" />
+          <NavigationProperty Name="NhomMon" Relationship="Self.FK__Mon__NhomMonID__114A936A" FromRole="Mon" ToRole="NhomMon" />
+        </EntityType>
+        <EntityType Name="NguoiDung">
+          <Key>
+            <PropertyRef Name="NguoiDungID" />
+          </Key>
+          <Property Name="NguoiDungID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HoTen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MatKhau" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NgayTao" Type="DateTime" Precision="0" />
+          <Property Name="QuyenID" Type="Int32" />
+          <Property Name="TrangThai" Type="Boolean" />
+          <NavigationProperty Name="PhanQuyen" Relationship="Self.FK__NguoiDung__Quyen__160F4887" FromRole="NguoiDung" ToRole="PhanQuyen" />
+          <NavigationProperty Name="ORDERs" Relationship="Self.FK__ORDER__NguoiDung__208CD6FA" FromRole="NguoiDung" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="NhomMon">
+          <Key>
+            <PropertyRef Name="NhomMonID" />
+          </Key>
+          <Property Name="NhomMonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenNhom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mons" Relationship="Self.FK__Mon__NhomMonID__114A936A" FromRole="NhomMon" ToRole="Mon" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NgayTao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TrangThai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChiNhanhID" Type="Int32" />
+          <Property Name="NguoiDungID" Type="Int32" />
+          <Property Name="KhachHangID" Type="Int32" />
+          <Property Name="KhuyenMaiID" Type="Int32" />
+          <NavigationProperty Name="ChiTietOrders" Relationship="Self.FK__ChiTietOr__Order__25518C17" FromRole="ORDER" ToRole="ChiTietOrder" />
+          <NavigationProperty Name="KhachHang" Relationship="Self.FK__ORDER__KhachHang__2180FB33" FromRole="ORDER" ToRole="KhachHang" />
+          <NavigationProperty Name="KhuyenMai" Relationship="Self.FK__ORDER__KhuyenMai__22751F6C" FromRole="ORDER" ToRole="KhuyenMai" />
+          <NavigationProperty Name="NguoiDung" Relationship="Self.FK__ORDER__NguoiDung__208CD6FA" FromRole="ORDER" ToRole="NguoiDung" />
+        </EntityType>
+        <EntityType Name="PhanQuyen">
+          <Key>
+            <PropertyRef Name="QuyenID" />
+          </Key>
+          <Property Name="QuyenID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenQuyen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NguoiDungs" Relationship="Self.FK__NguoiDung__Quyen__160F4887" FromRole="PhanQuyen" ToRole="NguoiDung" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__ChiTietOr__MonID__2645B050">
+          <End Role="Mon" Type="Self.Mon" Multiplicity="1" />
+          <End Role="ChiTietOrder" Type="Self.ChiTietOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mon">
+              <PropertyRef Name="MonID" />
+            </Principal>
+            <Dependent Role="ChiTietOrder">
+              <PropertyRef Name="MonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChiTietOr__Order__25518C17">
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="1" />
+          <End Role="ChiTietOrder" Type="Self.ChiTietOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDER">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="ChiTietOrder">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDER__KhachHang__2180FB33">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="KhachHangID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="KhachHangID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDER__KhuyenMai__22751F6C">
+          <End Role="KhuyenMai" Type="Self.KhuyenMai" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhuyenMai">
+              <PropertyRef Name="KhuyenMaiID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="KhuyenMaiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mon__NhomMonID__114A936A">
+          <End Role="NhomMon" Type="Self.NhomMon" Multiplicity="0..1" />
+          <End Role="Mon" Type="Self.Mon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomMon">
+              <PropertyRef Name="NhomMonID" />
+            </Principal>
+            <Dependent Role="Mon">
+              <PropertyRef Name="NhomMonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__NguoiDung__Quyen__160F4887">
+          <End Role="PhanQuyen" Type="Self.PhanQuyen" Multiplicity="0..1" />
+          <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhanQuyen">
+              <PropertyRef Name="QuyenID" />
+            </Principal>
+            <Dependent Role="NguoiDung">
+              <PropertyRef Name="QuyenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDER__NguoiDung__208CD6FA">
+          <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NguoiDung">
+              <PropertyRef Name="NguoiDungID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="NguoiDungID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CNPMEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChiTietOrders" EntityType="Self.ChiTietOrder" />
+          <EntitySet Name="KhachHangs" EntityType="Self.KhachHang" />
+          <EntitySet Name="KhuyenMais" EntityType="Self.KhuyenMai" />
+          <EntitySet Name="Mons" EntityType="Self.Mon" />
+          <EntitySet Name="NguoiDungs" EntityType="Self.NguoiDung" />
+          <EntitySet Name="NhomMons" EntityType="Self.NhomMon" />
+          <EntitySet Name="ORDERs" EntityType="Self.ORDER" />
+          <EntitySet Name="PhanQuyens" EntityType="Self.PhanQuyen" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK__ChiTietOr__MonID__2645B050" Association="Self.FK__ChiTietOr__MonID__2645B050">
+            <End Role="Mon" EntitySet="Mons" />
+            <End Role="ChiTietOrder" EntitySet="ChiTietOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChiTietOr__Order__25518C17" Association="Self.FK__ChiTietOr__Order__25518C17">
+            <End Role="ORDER" EntitySet="ORDERs" />
+            <End Role="ChiTietOrder" EntitySet="ChiTietOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDER__KhachHang__2180FB33" Association="Self.FK__ORDER__KhachHang__2180FB33">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="ORDER" EntitySet="ORDERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDER__KhuyenMai__22751F6C" Association="Self.FK__ORDER__KhuyenMai__22751F6C">
+            <End Role="KhuyenMai" EntitySet="KhuyenMais" />
+            <End Role="ORDER" EntitySet="ORDERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mon__NhomMonID__114A936A" Association="Self.FK__Mon__NhomMonID__114A936A">
+            <End Role="NhomMon" EntitySet="NhomMons" />
+            <End Role="Mon" EntitySet="Mons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__NguoiDung__Quyen__160F4887" Association="Self.FK__NguoiDung__Quyen__160F4887">
+            <End Role="PhanQuyen" EntitySet="PhanQuyens" />
+            <End Role="NguoiDung" EntitySet="NguoiDungs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDER__NguoiDung__208CD6FA" Association="Self.FK__ORDER__NguoiDung__208CD6FA">
+            <End Role="NguoiDung" EntitySet="NguoiDungs" />
+            <End Role="ORDER" EntitySet="ORDERs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CNPMModelStoreContainer" CdmEntityContainer="CNPMEntities1">
+          <EntitySetMapping Name="ChiTietOrders">
+            <EntityTypeMapping TypeName="CNPMModel.ChiTietOrder">
+              <MappingFragment StoreEntitySet="ChiTietOrder">
+                <ScalarProperty Name="CTOrderID" ColumnName="CTOrderID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="MonID" ColumnName="MonID" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="ThoiGianHoanTat" ColumnName="ThoiGianHoanTat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KhachHangs">
+            <EntityTypeMapping TypeName="CNPMModel.KhachHang">
+              <MappingFragment StoreEntitySet="KhachHang">
+                <ScalarProperty Name="KhachHangID" ColumnName="KhachHangID" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="NgayDangKy" ColumnName="NgayDangKy" />
+                <ScalarProperty Name="DiemTichLuy" ColumnName="DiemTichLuy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KhuyenMais">
+            <EntityTypeMapping TypeName="CNPMModel.KhuyenMai">
+              <MappingFragment StoreEntitySet="KhuyenMai">
+                <ScalarProperty Name="KhuyenMaiID" ColumnName="KhuyenMaiID" />
+                <ScalarProperty Name="MaVoucher" ColumnName="MaVoucher" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="GiaTriGiam" ColumnName="GiaTriGiam" />
+                <ScalarProperty Name="KieuGiam" ColumnName="KieuGiam" />
+                <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />
+                <ScalarProperty Name="NgayKetThuc" ColumnName="NgayKetThuc" />
+                <ScalarProperty Name="SoLanSuDungToiDa" ColumnName="SoLanSuDungToiDa" />
+                <ScalarProperty Name="DieuKienApDung" ColumnName="DieuKienApDung" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mons">
+            <EntityTypeMapping TypeName="CNPMModel.Mon">
+              <MappingFragment StoreEntitySet="Mon">
+                <ScalarProperty Name="MonID" ColumnName="MonID" />
+                <ScalarProperty Name="TenMon" ColumnName="TenMon" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="GiaBan" ColumnName="GiaBan" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="NhomMonID" ColumnName="NhomMonID" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NguoiDungs">
+            <EntityTypeMapping TypeName="CNPMModel.NguoiDung">
+              <MappingFragment StoreEntitySet="NguoiDung">
+                <ScalarProperty Name="NguoiDungID" ColumnName="NguoiDungID" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="QuyenID" ColumnName="QuyenID" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NhomMons">
+            <EntityTypeMapping TypeName="CNPMModel.NhomMon">
+              <MappingFragment StoreEntitySet="NhomMon">
+                <ScalarProperty Name="NhomMonID" ColumnName="NhomMonID" />
+                <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERs">
+            <EntityTypeMapping TypeName="CNPMModel.ORDER">
+              <MappingFragment StoreEntitySet="ORDER">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="ChiNhanhID" ColumnName="ChiNhanhID" />
+                <ScalarProperty Name="NguoiDungID" ColumnName="NguoiDungID" />
+                <ScalarProperty Name="KhachHangID" ColumnName="KhachHangID" />
+                <ScalarProperty Name="KhuyenMaiID" ColumnName="KhuyenMaiID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhanQuyens">
+            <EntityTypeMapping TypeName="CNPMModel.PhanQuyen">
+              <MappingFragment StoreEntitySet="PhanQuyen">
+                <ScalarProperty Name="QuyenID" ColumnName="QuyenID" />
+                <ScalarProperty Name="TenQuyen" ColumnName="TenQuyen" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CNPMModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

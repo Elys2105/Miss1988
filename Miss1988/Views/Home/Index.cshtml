@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    /* Giới hạn container */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    /* Slider layout */
+    .hero-slider {
+        padding: 40px 0; /* có khoảng cách trên/dưới */
+        background-color: #f5f5f5;
+    }
+
+    .slider-wrapper {
+        position: relative;
+        width: 100%;
+        height: 500px; /* hoặc 60vh nếu muốn responsive */
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    /* Ảnh trong slider */
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+        z-index: 1;
+    }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+    /* Nút trái/phải */
+    .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: none;
+        font-size: 1.5rem;
+        color: #333;
+        border-radius: 50%;
+        display: none;
+        z-index: 3;
+        cursor: pointer;
+    }
+
+        .slider-btn.left {
+            left: 15px;
+        }
+
+        .slider-btn.right {
+            right: 15px;
+        }
+
+    .slider-wrapper:hover .slider-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .slider-btn:hover {
+        background-color: white;
+    }
+
+</style>
+<section class="hero-slider">
+    <div class="container">
+        <div class="slider-wrapper">
+            <img class="slide" src="~/Content/Images/slides_1.jpg" alt="Slide 1" />
+            <img class="slide" src="~/Content/Images/slides_2.jpg" alt="Slide 2" />
+            <button id="prevBtn" class="slider-btn left">&#10094;</button>
+            <button id="nextBtn" class="slider-btn right">&#10095;</button>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="section-title">
+    <h2>DANH MỤC SẢN PHẨM</h2>
+    <p class="subtitle">Khám phá các loại cà phê nổi bật</p>
+</section>
+@Html.Action("PVCategories")
+
+<!-- BEST SELLER -->
+<section class="section-title">
+    <h2>BEST SELLER</h2>
+    <p class="subtitle">Best Seller Product This Week!</p>
+</section>
+@Html.Action("PVBestSeller")
+
+<!-- KHUYEN MAI -->
+<section class="section-title">
+    <h2>BEST SELLER</h2>
+    <p class="subtitle">Best Seller Product This Week!</p>
+</section>
+@Html.Action("PVKhuyenMai")
+
+

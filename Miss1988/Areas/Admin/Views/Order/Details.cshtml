@@ -1,0 +1,48 @@
+﻿@model Miss1988.Models.ViewModel.OrderVM
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Chi tiết đơn hàng #@Model.Order.OrderID</h2>
+
+<div class="card border p-3 mb-4">
+    <h4>🧑 Thông tin khách hàng</h4>
+    <p><strong>Họ tên:</strong> @Model.Order.KhachHang.HoTen</p>
+    <p><strong>Điện thoại:</strong> @Model.Order.KhachHang.SoDienThoai</p>
+    <p><strong>Địa chỉ:</strong> @Model.Order.KhachHang.DiaChi</p>
+</div>
+
+<div class="card border p-3 mb-4">
+    <h4>📦 Thông tin đơn hàng</h4>
+    <p><strong>Ngày đặt:</strong> @Model.Order.NgayTao.ToString("dd/MM/yyyy HH:mm")</p>
+    <p><strong>Trạng thái:</strong> <span class="badge badge-info">@Model.Order.TrangThai</span></p>
+    <p><strong>Phương thức thanh toán:</strong> @Model.PhuongThucThanhToan</p>
+    <p><strong>Ghi chú:</strong> @Model.GhiChu</p>
+</div>
+
+<h4 class="mt-4">📋 Danh sách sản phẩm</h4>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order.ChiTietOrders)
+        {
+            <tr>
+                <td>@item.Mon.TenMon</td>
+                <td>@item.SoLuong</td>
+                <td>@string.Format("{0:N0} ₫", item.Mon.GiaBan)</td>
+                <td>@string.Format("{0:N0} ₫", item.SoLuong * item.Mon.GiaBan)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Index", "Order")" class="btn btn-secondary mt-3">← Quay lại danh sách</a>

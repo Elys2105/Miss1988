@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Miss1988.Models.ViewModel.OrderVM>
+
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<!-- Form lọc (giữ nguyên) -->
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Mã đơn</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Thanh toán</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>#@item.Order.OrderID</td>
+                <td>@item.Order.KhachHang.HoTen</td>
+                <td>@item.Order.NgayTao.ToString("dd/MM/yyyy")</td>
+                <td>@item.PhuongThucThanhToan</td>
+                <td>
+                    <span class="badge badge-@(item.Order.TrangThai == "Hoàn thành" ? "success" : item.Order.TrangThai == "Hủy" ? "danger" : "secondary")">
+                        @item.Order.TrangThai
+                    </span>
+                </td>
+                <td>
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Order.OrderID }, new { @class = "btn btn-info btn-sm" }) |
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.Order.OrderID }, new { @class = "btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Hủy", "Cancel", new { id = item.Order.OrderID }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

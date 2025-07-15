@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<style>
+    .main-header {
+        position: relative; /* hoặc sticky/fixed */
+        z-index: 1000; /* cao hơn dropdown */
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 10px 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .header-logo a {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333; /* từ white chuyển thành xám đậm */
+        text-decoration: none;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .header-menu a {
+        margin-left: 25px;
+        color: #333; /* từ white chuyển thành xám đậm */
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 16px;
+        transition: color 0.3s;
+    }
+
+        .header-menu a:hover {
+            color: #764ba2; /* màu tím nhấn khi hover */
+        }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        z-index: 1100;
+    }
+
+    .dropdown-toggle {
+        background: none;
+        border: none;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        color: #fff; /* hoặc #333 nếu nền sáng */
+        padding: 8px 12px;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 180px;
+        top: 100%;
+        right: 0;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 6px;
+        z-index: 9999;
+    }
+
+        .dropdown-menu a {
+            color: #333 !important;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+            .dropdown-menu a:hover {
+                background-color: #333;
+                color: #fff !important;
+            }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+</style>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - Miss1988</title>
+    <link href="~/Content/site.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="header-logo">
+                <a href="@Url.Action("Index", "Home")">Miss1988</a>
+            </div>
+            <nav class="header-menu">
+                <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                <a href="@Url.Action("About", "Home")">Giới thiệu</a>
+                <a href="@Url.Action("Index", "Menu")">Menu</a>
+                <a href="@Url.Action("Index", "Promotion")">Khuyến Mãi</a>
+                <a href="@Url.Action("About", "Home")">Tuyển Dụng</a>
+                <a href="@Url.Action("Index", "Cart")" style="position: relative;">
+                    🛒 Giỏ Hàng
+                    <span id="cart-count" style="position:absolute; top:-10px; right:-10px; background:red; color:white; font-size:12px; padding:2px 6px; border-radius:50%;">
+                        @((Session["ShoppingCart"] as Miss1988.Models.ViewModel.CartVM)?.Items.Sum(i => i.Quantity) ?? 0)
+                    </span>
+                </a>
+
+                @if (Session["Username"] != null)
+                {
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">@Session["Username"] <span>&#x25BC;</span></button>
+                        <div class="dropdown-menu">
+                            <a href="#">Thông tin tài khoản</a>
+                            <a href="@Url.Action("Logout", "Account")">Đăng xuất</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Account")">Thành Viên</a>
+                }
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        @RenderBody()
+        @RenderSection("Scripts", required: false)
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; @DateTime.Now.Year - Miss1988</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentIndex = 0;
+            let interval;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                showSlide(currentIndex);
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                showSlide(currentIndex);
+            }
+
+            function startAutoSlide() {
+                interval = setInterval(nextSlide, 5000);
+            }
+
+            function stopAutoSlide() {
+                clearInterval(interval);
+            }
+
+            prevBtn.addEventListener('click', () => {
+                stopAutoSlide();
+                prevSlide();
+                startAutoSlide();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                stopAutoSlide();
+                nextSlide();
+                startAutoSlide();
+            });
+
+            showSlide(currentIndex);
+            startAutoSlide();
+        });
+    </script>
+</body>
+</html>

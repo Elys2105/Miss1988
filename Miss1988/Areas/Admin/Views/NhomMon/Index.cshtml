@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Miss1988.Models.NhomMon>
+@{
+    ViewBag.Title = "Danh sách nhóm món";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("➕ Thêm nhóm món", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Tên nhóm</th>
+            <th>Mô tả</th>
+            <th>Hình ảnh</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TenNhom</td>
+                <td>@item.MoTa</td>
+                <td>
+                    <img src="@(string.IsNullOrWhiteSpace(item.ImageUrl) ? Url.Content("~/Content/Images/no-image.png") : item.ImageUrl)"
+                         alt="@item.TenNhom"
+                         width="100"
+                         style="border-radius: 8px;"
+                         onerror="this.onerror=null;this.src='@Url.Content("~/Content/Images/no-image.png")';" />
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.NhomMonID }, new { @class = "btn btn-warning btn-sm" })
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.NhomMonID }, new { @class = "btn btn-info btn-sm" })
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.NhomMonID }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

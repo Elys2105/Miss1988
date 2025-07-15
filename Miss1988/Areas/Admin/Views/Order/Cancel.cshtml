@@ -1,0 +1,22 @@
+﻿@model Miss1988.Models.ORDER
+@{
+    ViewBag.Title = "Hủy đơn hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Hủy đơn hàng #@Model.OrderID</h2>
+
+<p><strong>Khách hàng:</strong> @Model.KhachHang.HoTen</p>
+<p><strong>Ngày đặt:</strong> @Model.NgayTao.ToString("dd/MM/yyyy")</p>
+<p><strong>Trạng thái hiện tại:</strong> @Model.TrangThai</p>
+
+<p>Bạn có chắc chắn muốn <strong>hủy</strong> đơn hàng này không?</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.OrderID)
+
+    <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
+    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+}

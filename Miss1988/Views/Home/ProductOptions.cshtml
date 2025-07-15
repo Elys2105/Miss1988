@@ -1,0 +1,57 @@
+﻿@model Miss1988.Models.ViewModel.ProductOptionVM
+@{
+    ViewBag.Title = "Chọn món";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <img src="@Url.Content(Model.ImageUrl ?? "~/Content/Images/no-image.png")" alt="ảnh món"
+                 class="img-fluid rounded" style="max-height: 320px;" />
+        </div>
+        <div class="col-md-6">
+            <h2>@Model.TenMon</h2>
+            <h4 class="text-danger">@string.Format("{0:N0} đ", Model.GiaBan)</h4>
+
+            @using (Html.BeginForm("AddToCartWithOption", "Cart", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("ProductId", Model.MonID)
+
+                <h5 class="mt-4">Chọn size (bắt buộc)</h5>
+                <div class="mb-3 d-flex gap-2 flex-wrap">
+                    @foreach (var size in Model.AvailableSizes)
+                    {
+                        <label class="btn btn-outline-dark">
+                            <input type="radio" name="SelectedSize" value="@size.Value" required hidden />
+                            @Html.Raw(size.Text)
+                        </label>
+                    }Â
+                </div>
+
+                <h5 class="mt-4">Topping</h5>
+                <div class="mb-3 d-flex gap-2 flex-wrap">
+                    @for (int i = 0; i < Model.Toppings.Count; i++)
+                    {
+                        var topping = Model.Toppings[i];
+                        <label class="btn btn-outline-secondary">
+                            <input type="checkbox" name="SelectedToppings" value="@topping.Value" hidden />
+                            @Html.Raw(topping.Text)
+                        </label>
+                    }
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" name="action" value="add" class="btn btn-outline-dark">🛒 Thêm vào giỏ</button>
+                    <button type="submit" name="action" value="order" class="btn btn-warning">🚚 Đặt giao tận nơi</button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h5>Mô tả sản phẩm</h5>
+        <p>@Model.MoTa</p>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+﻿@model Miss1988.Models.NhomMon
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class=" bg-success">Chi tiết sản phẩm</h2>
+
+@Html.Partial("PVNhomMonInfo", Model)
+<div style="padding:10px">
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.NhomMonID }, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default btn-sm" })
+</div>

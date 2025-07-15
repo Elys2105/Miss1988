@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Miss1988.Models.ViewModel.KhuyenMaiVM>
+
+<style>
+    .news-section-title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #7d5a3c;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .news-card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        max-width: 350px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-bottom: 4px solid #28a745;
+            background-color: #fff;
+        }
+
+    .card-body {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .news-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #28a745;
+        color: white;
+        font-size: 12px;
+        padding: 5px 8px;
+        border-radius: 3px;
+        z-index: 2;
+    }
+
+    .news-title {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .news-date {
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 5px;
+    }
+
+    .news-description {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 8px;
+        line-height: 1.4;
+        max-height: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .news-card .btn {
+        font-size: 13px;
+        padding: 4px 10px;
+        margin-top: auto;
+        align-self: start;
+    }
+</style>
+
+<section class="news-section-title">TIN TỨC & SỰ KIỆN</section>
+
+<div class="container">
+    <div class="row justify-content-center">
+        @foreach (var km in Model)
+        {
+            <div class="col-md-4 mb-4 d-flex">
+                <div class="card news-card">
+                    <div class="position-relative">
+                        <img src="@Url.Content(km.ImageUrl ?? "~/Content/Images/no-image.png")" alt="Thumbnail" />
+                        <span class="news-badge">TIN TỨC & SỰ KIỆN</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="news-title">@km.MaVoucher</h6>
+                        <small class="news-date">@km.NgayBatDau?.ToString("dd/MM/yyyy")</small>
+                        <p class="news-description">@km.MoTa</p>
+                        <a href="@Url.Action("Details", "KhuyenMai", new { area = "Admin", id = km.KhuyenMaiID })"
+                           class="btn btn-outline-dark btn-sm">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

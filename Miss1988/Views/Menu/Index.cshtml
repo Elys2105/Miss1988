@@ -1,0 +1,177 @@
+﻿@model IEnumerable<Miss1988.Models.Mon>
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ViewBag.NhomMons as List<Miss1988.Models.NhomMon>;
+    var currentId = ViewBag.CurrentCategoryId as int?;
+}
+
+<style>
+    .menu-container {
+        display: flex;
+        max-width: 1200px;
+        margin: 40px auto;
+        gap: 40px;
+    }
+
+    .menu-sidebar {
+        width: 220px;
+        border-right: 1px solid #eee;
+        padding-right: 15px;
+    }
+
+        .menu-sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .menu-sidebar li {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+            .menu-sidebar li a {
+                text-decoration: none;
+                color: #333;
+                font-weight: 500;
+            }
+
+            .menu-sidebar li.active,
+            .menu-sidebar li:hover {
+                background-color: #f98d2a;
+            }
+
+                .menu-sidebar li.active a,
+                .menu-sidebar li:hover a {
+                    color: white;
+                }
+
+    .menu-products {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 30px;
+    }
+
+    .product-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        text-align: center;
+        transition: transform 0.2s;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .product-card h5 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-card p {
+            color: #f98d2a;
+            font-weight: 600;
+        }
+
+        .product-card .btn {
+            margin-top: 10px;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+    .btn-outline {
+        background: #fff;
+        border: 1px solid #ccc;
+        color: #333;
+    }
+
+        .btn-outline:hover {
+            background: #f1f1f1;
+        }
+
+    .btn-buy {
+        background-color: #f98d2a;
+        color: #fff;
+    }
+
+        .btn-buy:hover {
+            background-color: #e67d19;
+        }
+</style>
+
+<div class="menu-container">
+    <!-- SIDEBAR -->
+    <div class="menu-sidebar">
+        <ul>
+            <li class="@(currentId == null ? "active" : "")">
+                <a href="@Url.Action("Index", "Menu")">🍽️ Tất cả</a>
+            </li>
+            @foreach (var cat in categories)
+            {
+                <li class="@(currentId == cat.NhomMonID ? "active" : "")">
+                    <a href="@Url.Action("Menu", "Menu", new { categoryId = cat.NhomMonID })">@cat.TenNhom</a>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <!-- DANH SÁCH SẢN PHẨM -->
+    <div class="menu-products">
+        <p style="grid-column: 1/-1; color: #666; font-size: 14px;">
+            @Model.Count() sản phẩm @if (currentId != null)
+            {<span>trong nhóm <strong>@categories.FirstOrDefault(c => c.NhomMonID == currentId)?.TenNhom</strong></span>}
+        </p>
+
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                var imgUrl = string.IsNullOrEmpty(item.ImageUrl)
+                    ? Url.Content("~/Content/Images/no-image.png")
+                    : item.ImageUrl.StartsWith("http") ? item.ImageUrl : Url.Content(item.ImageUrl);
+
+                <div class="product-card">
+                    <img src="@imgUrl" alt="@item.TenMon" />
+                    <h5>@item.TenMon</h5>
+                    <p>@string.Format("{0:N0} đ", item.GiaBan)</p>
+
+                    <form method="post" action="@Url.Action("AddToCart", "Cart")">
+                        <input type="hidden" name="productId" value="@item.MonID" />
+                        <button type="submit" class="btn btn-outline">🛒 Thêm giỏ hàng</button>
+                    </form>
+
+                    <form method="post" action="@Url.Action("CheckoutWithOptions", "Cart")">
+                        <input type="hidden" name="productId" value="@item.MonID" />
+                        <input type="hidden" name="selectedSize" value="Mặc định" />
+                        <input type="hidden" name="selectedToppings" value="" />
+                        <button type="submit" class="btn btn-buy">⚡ Mua ngay</button>
+                    </form>
+                </div>
+            }
+        }
+        else
+        {
+            <div style="grid-column: 1 / -1; text-align: center; color: #999;">
+                <h4>Không có sản phẩm nào trong nhóm này.</h4>
+            </div>
+        }
+    </div>
+</div>

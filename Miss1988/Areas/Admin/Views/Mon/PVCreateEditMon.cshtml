@@ -1,0 +1,55 @@
+﻿@model Miss1988.Models.Mon
+
+<!-- Nhóm món -->
+<div class="form-group">
+    @Html.LabelFor(m => m.NhomMonID, "Nhóm món", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.NhomMonID, (SelectList)ViewBag.NhomMonID, "-- Chọn nhóm món --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NhomMonID, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Tên món -->
+<div class="form-group">
+    @Html.LabelFor(m => m.TenMon, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.TenMon, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.TenMon, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Mô tả -->
+<div class="form-group">
+    @Html.LabelFor(m => m.MoTa, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextAreaFor(m => m.MoTa, new { @class = "form-control", rows = 3 })
+        @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Giá bán -->
+<div class="form-group">
+    @Html.LabelFor(m => m.GiaBan, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.GiaBan, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.GiaBan, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Hình ảnh -->
+<div class="form-group">
+    <div class="control-label col-md-2">Hình ảnh</div>
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Nút -->
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Lưu" class="btn btn-primary" />
+        @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+}

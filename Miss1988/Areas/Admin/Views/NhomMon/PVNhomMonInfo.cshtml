@@ -1,0 +1,26 @@
+﻿@model Miss1988.Models.NhomMon
+
+<h2>Thông tin nhóm món</h2>
+
+<div class="container-fluid">
+    <dl class="dl-horizontal" style="border-bottom:1px solid #ccc; padding-bottom:10px; margin-bottom:10px;">
+        <dt>Tên nhóm</dt>
+        <dd>@Html.DisplayFor(m => m.TenNhom)</dd>
+
+        <dt>Mô tả</dt>
+        <dd>@Html.DisplayFor(m => m.MoTa)</dd>
+
+        <dt>Hình ảnh</dt>
+        <dd>
+            <img src="@Url.Content(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "~/Content/Images/no-image.png")"
+                 alt="@Model.TenNhom"
+                 class="img-thumbnail"
+                 style="max-width: 200px;" />
+        </dd>
+    </dl>
+
+    <div class="form-group">
+        @Html.ActionLink("✏️ Sửa nhóm món", "Edit", new { id = Model.NhomMonID }, new { @class = "btn btn-warning" })
+        @Html.ActionLink("🔙 Trở lại danh sách", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>

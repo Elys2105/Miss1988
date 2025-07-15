@@ -1,0 +1,92 @@
+﻿@model Miss1988.Models.KhuyenMai
+
+<!-- Mã voucher -->
+<div class="form-group">
+    @Html.LabelFor(m => m.MaVoucher, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.MaVoucher, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.MaVoucher, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Mô tả -->
+<div class="form-group">
+    @Html.LabelFor(m => m.MoTa, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextAreaFor(m => m.MoTa, new { @class = "form-control", rows = 3 })
+        @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Giá trị giảm -->
+<div class="form-group">
+    @Html.LabelFor(m => m.GiaTriGiam, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.GiaTriGiam, new { @class = "form-control", type = "number", min = "0", step = "1" })
+        @Html.ValidationMessageFor(m => m.GiaTriGiam, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Kiểu giảm -->
+<div class="form-group">
+    @Html.LabelFor(m => m.KieuGiam, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.KieuGiam, new SelectList(new[] {
+            new { Value = "PhanTram", Text = "Phần trăm (%)" },
+            new { Value = "TienMat", Text = "Số tiền (VNĐ)" }
+        }, "Value", "Text"), "-- Chọn kiểu giảm --", new { @class = "form-control" })
+    </div>
+</div>
+
+<!-- Ngày bắt đầu -->
+<div class="form-group">
+    @Html.LabelFor(m => m.NgayBatDau, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.NgayBatDau, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+        @Html.ValidationMessageFor(m => m.NgayBatDau, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Ngày kết thúc -->
+<div class="form-group">
+    @Html.LabelFor(m => m.NgayKetThuc, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.NgayKetThuc, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+        @Html.ValidationMessageFor(m => m.NgayKetThuc, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Số lần sử dụng tối đa -->
+<div class="form-group">
+    @Html.LabelFor(m => m.SoLanSuDungToiDa, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.SoLanSuDungToiDa, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.SoLanSuDungToiDa, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Điều kiện áp dụng -->
+<div class="form-group">
+    @Html.LabelFor(m => m.DieuKienApDung, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.DieuKienApDung, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.DieuKienApDung, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Hình ảnh -->
+<div class="form-group">
+    <div class="control-label col-md-2">Hình ảnh</div>
+    <div class="col-md-10">
+        @Html.EditorFor(m => m.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(m => m.ImageUrl, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<!-- Nút -->
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Lưu" class="btn btn-primary" />
+        @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>

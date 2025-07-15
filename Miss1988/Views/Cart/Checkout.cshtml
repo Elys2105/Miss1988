@@ -1,0 +1,179 @@
+﻿@model Miss1988.Models.ViewModel.CheckoutVM
+
+<style>
+    .checkout-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        display: flex;
+        gap: 50px;
+        background-color: #f8f4f1;
+        padding: 40px;
+        border-radius: 12px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .checkout-left, .checkout-right {
+        flex: 1;
+    }
+
+        .checkout-left h2 {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+    }
+
+    .cart-summary h4 {
+        font-weight: 400;
+        font-size: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 10px;
+    }
+
+    .cart-summary p {
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        margin: 6px 0;
+    }
+
+    .product-line {
+        font-size: 15px;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #ddd;
+    }
+
+    .total-box {
+        background-color: #f0e6dd;
+        padding: 12px;
+        font-weight: bold;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        border-radius: 6px;
+    }
+
+    .checkout-btn {
+        margin-top: 20px;
+        background-color: #000;
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        width: 100%;
+        border-radius: 6px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+        .checkout-btn:hover {
+            background-color: #333;
+        }
+</style>
+
+@using (Html.BeginForm())
+{
+    <div class="checkout-container">
+        <div class="checkout-left">
+            <h2>Thông tin thanh toán</h2>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.CustomerName, "Họ tên")
+                @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Phone, "Số điện thoại")
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address, "Địa chỉ nhận hàng")
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PaymentMethod, "Phương thức thanh toán")
+                @Html.DropDownListFor(m => m.PaymentMethod, new SelectList(new[]
+                {
+                    new { Value = "Cash", Text = "Thanh toán khi nhận hàng (COD)" },
+                    new { Value = "BankTransfer", Text = "Chuyển khoản ngân hàng" },
+                    new { Value = "VNPay", Text = "VNPay / QR Code" }
+                }, "Value", "Text"), "-- Chọn phương thức --", new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.OrderNote, "Ghi chú đơn hàng")
+                @Html.TextAreaFor(m => m.OrderNote, new { @class = "form-control", rows = 4, placeholder = "Ví dụ: Giao sau 6h chiều..." })
+            </div>
+
+            <button type="submit" class="checkout-btn">Xác nhận thanh toán</button>
+        </div>
+
+        <div class="checkout-right">
+            <div class="cart-summary">
+                <h4>Đơn hàng của bạn</h4>
+
+                @if (Model.Cart != null && Model.Cart.Items.Any())
+                {
+                    decimal total = 0;
+                    foreach (var item in Model.Cart.Items)
+                    {
+                        var itemTotal = item.UnitPrice * item.Quantity;
+                        total += itemTotal;
+
+                        <div class="product-line">
+                            <strong>@item.ProductName</strong>
+                            @if (!string.IsNullOrEmpty(item.ExtraInfo))
+                            {
+                                <div><small>@item.ExtraInfo</small></div>
+                            }
+                            <p>SL: @item.Quantity x @String.Format("{0:N0}₫", item.UnitPrice)</p>
+                            <p>Tạm tính: @String.Format("{0:N0}₫", itemTotal)</p>
+                        </div>
+                    }
+
+                    <div class="total-box">
+                        <span>Tổng cộng:</span>
+                        <span>@String.Format("{0:N0}₫", total)</span>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có sản phẩm nào trong đơn hàng.</p>
+                }
+            </div>
+        </div>
+    </div>
+}

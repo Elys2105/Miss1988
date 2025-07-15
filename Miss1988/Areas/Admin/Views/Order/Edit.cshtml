@@ -1,0 +1,37 @@
+﻿@model Miss1988.Models.ViewModel.OrderVM
+
+@{
+    ViewBag.Title = "Cập nhật trạng thái đơn hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var statusList = new List<SelectListItem>
+{
+        new SelectListItem { Text = "Chưa xử lý", Value = "Chưa xử lý" },
+        new SelectListItem { Text = "Đang xử lý", Value = "Đang xử lý" },
+        new SelectListItem { Text = "Đang giao", Value = "Đang giao" },
+        new SelectListItem { Text = "Hoàn thành", Value = "Hoàn thành" },
+        new SelectListItem { Text = "Hủy", Value = "Hủy" }
+    };
+}
+
+<h2>Cập nhật trạng thái đơn hàng #@Model.Order.OrderID</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Order.OrderID)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.TrangThai, "Trạng thái")
+        @Html.DropDownListFor(m => m.TrangThai, new SelectList(statusList, "Value", "Text", Model.TrangThai),
+            "Chọn trạng thái...", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.GhiChu, "Ghi chú")
+        @Html.TextAreaFor(m => m.GhiChu, new { @class = "form-control", rows = 3 })
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu</button>
+    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary ml-2" })
+}

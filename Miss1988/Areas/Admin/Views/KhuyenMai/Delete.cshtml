@@ -1,0 +1,20 @@
+﻿@model Miss1988.Models.KhuyenMai
+@{
+    ViewBag.Title = "Xóa khuyến mãi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2 class="bg-success">Xóa khuyến mãi</h2>
+<h4 class="alert-danger">Bạn thật sự muốn xóa khuyến mãi này?</h4>
+
+@Html.Partial("PVKhuyenMaiInfo", Model)
+
+<div style="padding:10px">
+    @using (Html.BeginForm("Delete", "KhuyenMai", FormMethod.Post, new { area = "Admin" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.KhuyenMaiID)
+
+        <input type="submit" value="Xóa" class="btn btn-danger btn-sm" />
+        @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-primary btn-sm" })
+    }
+</div>

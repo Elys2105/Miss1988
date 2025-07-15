@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Miss1988.Models.KhuyenMai>
+@{
+    ViewBag.Title = "Danh sách khuyến mãi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("➕ Thêm khuyến mãi", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Mã voucher</th>
+            <th>Mô tả</th>
+            <th>Giá trị giảm</th>
+            <th>Kiểu giảm</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Hình ảnh</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaVoucher</td>
+                <td>@item.MoTa</td>
+                <td>@(item.GiaTriGiam.HasValue ? item.GiaTriGiam.Value.ToString("N0") + " %" : "0 %")</td>
+                <td>@item.KieuGiam</td>
+                <td>@(item.NgayBatDau.HasValue ? item.NgayBatDau.Value.ToString("dd/MM/yyyy") : "")</td>
+                <td>@(item.NgayKetThuc.HasValue ? item.NgayKetThuc.Value.ToString("dd/MM/yyyy") : "")</td>
+                <td>
+                    <img src="@(string.IsNullOrWhiteSpace(item.ImageUrl) ? Url.Content("~/Content/Images/no-image.png") : item.ImageUrl)"
+                         alt="@item.MaVoucher"
+                         width="100"
+                         style="border-radius: 8px;"
+                         onerror="this.onerror=null;this.src='@Url.Content("~/Content/Images/no-image.png")';" />
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.KhuyenMaiID }, new { @class = "btn btn-warning btn-sm" })
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.KhuyenMaiID }, new { @class = "btn btn-info btn-sm" })
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.KhuyenMaiID }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

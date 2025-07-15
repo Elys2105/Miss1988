@@ -1,0 +1,132 @@
+﻿@model Miss1988.Models.ViewModel.LoginVM
+@{
+    ViewBag.Title = "Tài khoản cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 4rem 2rem;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        padding: 2rem;
+        flex: 1 1 450px;
+        max-width: 500px;
+    }
+
+        .auth-card h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-card .input {
+            margin-bottom: 1rem;
+        }
+
+    .input1 {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .auth-card button {
+        padding: 0.6rem 1.2rem;
+        border: none;
+        background: #333;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .fa-eye {
+        position: absolute;
+        right: 16px;
+        top: 12px;
+        cursor: pointer;
+        color: gray;
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .sign-up, .lost-password {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+    }
+
+        .sign-up a, .lost-password a {
+            color: #007bff;
+            text-decoration: none;
+        }
+</style>
+
+<h1 style="text-align: center; margin-top: 2rem;">Tài khoản cá nhân</h1>
+<div class="auth-container">
+
+    <!-- LOGIN FORM -->
+    <div class="auth-card">
+        <h2>Login</h2>
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="input">
+                @Html.LabelFor(m => m.HoTen)
+                @Html.TextBoxFor(m => m.HoTen, new { @class = "input1", placeholder = "Username or email address" })
+                @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input password-wrapper">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "input1", id = "loginPassword", placeholder = "Password" })
+                <i class="fa fa-eye" id="toggleLoginPassword"></i>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="check mb-3">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe)
+            </div>
+
+            <button type="submit">Log in</button>
+
+            <div class="lost-password">
+                <a href="#">Lost your password?</a>
+            </div>
+        }
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div class="auth-card">
+        @Html.Partial("Register", new Miss1988.Models.ViewModel.RegisterVM())
+    </div>
+</div>
+
+<!-- Password toggle -->
+<script>
+    const toggleLoginPassword = document.getElementById("toggleLoginPassword");
+    const loginPassword = document.getElementById("loginPassword");
+    toggleLoginPassword?.addEventListener("click", function () {
+        const type = loginPassword.getAttribute("type") === "password" ? "text" : "password";
+        loginPassword.setAttribute("type", type);
+        this.classList.toggle("fa-eye-slash");
+    });
+
+    const toggleRegisterPassword = document.getElementById("toggleRegisterPassword");
+    const registerPassword = document.getElementById("registerPassword");
+    toggleRegisterPassword?.addEventListener("click", function () {
+        const type = registerPassword.getAttribute("type") === "password" ? "text" : "password";
+        registerPassword.setAttribute("type", type);
+        this.classList.toggle("fa-eye-slash");
+    });
+</script>

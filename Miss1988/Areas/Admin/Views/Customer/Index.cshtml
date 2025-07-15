@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Miss1988.Models.NguoiDung>
+
+@{
+    ViewBag.Title = "Danh sách người dùng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="text-center mt-3">Danh sách người dùng</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Ngày tạo</th>
+            <th>Trạng thái</th>
+            <th>Quyền</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>@item.HoTen</td>
+                <td>@item.Email</td>
+                <td>@(item.NgayTao?.ToString("dd/MM/yyyy"))</td>
+                <td>@(item.TrangThai == true ? "Hoạt động" : "Bị khóa")</td>
+                <td>@(item.PhanQuyen != null ? item.PhanQuyen.TenQuyen : "Không rõ")</td>
+                <td>
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.NguoiDungID }, new { @class = "btn btn-info btn-sm me-1" })
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.NguoiDungID }, new { @class = "btn btn-warning btn-sm me-1" })
+
+                    @if (item.TrangThai == true)
+                    {
+                        @Html.ActionLink("Khóa", "Lock", new { id = item.NguoiDungID }, new { @class = "btn btn-danger btn-sm" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Mở khóa", "Unlock", new { id = item.NguoiDungID }, new { @class = "btn btn-success btn-sm" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p class="text-end">
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" })
+</p>

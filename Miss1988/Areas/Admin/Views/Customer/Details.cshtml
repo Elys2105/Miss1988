@@ -1,0 +1,28 @@
+﻿@model Miss1988.Models.NguoiDung
+@{
+    ViewBag.Title = "Chi tiết người dùng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+<h2>Chi tiết người dùng</h2>
+<div>
+    <dl class="dl-horizontal">
+        <dt>Họ tên:</dt>
+        <dd>@Model.HoTen</dd>
+
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Ngày tạo:</dt>
+        <dd>@(Model.NgayTao?.ToString("dd/MM/yyyy"))</dd>
+
+        <dt>Trạng thái:</dt>
+        <dd>@(Model.TrangThai.GetValueOrDefault() ? "Hoạt động" : "Bị khóa")</dd>
+
+        <dt>Quyền:</dt>
+        <dd>@(Model.PhanQuyen != null ? Model.PhanQuyen.TenQuyen : "Không rõ")</dd>
+    </dl>
+    <p>
+        @Html.ActionLink("Sửa", "Edit", new { id = Model.NguoiDungID }, new { @class = "btn btn-warning" })
+        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+    </p>
+</div>

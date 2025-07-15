@@ -1,0 +1,44 @@
+﻿@model Miss1988.Models.KhuyenMai
+
+<h2>Thông tin khuyến mãi</h2>
+
+<div class="container-fluid">
+    <dl class="dl-horizontal" style="border-bottom:1px solid #ccc; padding-bottom:10px; margin-bottom:10px;">
+        <dt>Mã voucher</dt>
+        <dd>@Html.DisplayFor(m => m.MaVoucher)</dd>
+
+        <dt>Mô tả</dt>
+        <dd>@Html.DisplayFor(m => m.MoTa)</dd>
+
+        <dt>Giá trị giảm</dt>
+        <dd>@(Model.GiaTriGiam.HasValue ? Model.GiaTriGiam.Value.ToString("N0") + " %" : "0 %")</dd>
+
+        <dt>Kiểu giảm</dt>
+        <dd>@Html.DisplayFor(m => m.KieuGiam)</dd>
+
+        <dt>Ngày bắt đầu</dt>
+        <dd>@(Model.NgayBatDau.HasValue ? Model.NgayBatDau.Value.ToString("dd/MM/yyyy") : "")</dd>
+
+        <dt>Ngày kết thúc</dt>
+        <dd>@(Model.NgayKetThuc.HasValue ? Model.NgayKetThuc.Value.ToString("dd/MM/yyyy") : "")</dd>
+
+        <dt>Số lần sử dụng tối đa</dt>
+        <dd>@Html.DisplayFor(m => m.SoLanSuDungToiDa)</dd>
+
+        <dt>Điều kiện áp dụng</dt>
+        <dd>@Html.DisplayFor(m => m.DieuKienApDung)</dd>
+
+        <dt>Hình ảnh</dt>
+        <dd>
+            <img src="@Url.Content(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "~/Content/Images/no-image.png")"
+                 alt="@Model.MaVoucher"
+                 class="img-thumbnail"
+                 style="max-width: 200px;" />
+        </dd>
+    </dl>
+
+    <div class="form-group">
+        @Html.ActionLink("✏️ Sửa", "Edit", new { id = Model.KhuyenMaiID }, new { @class = "btn btn-warning" })
+        @Html.ActionLink("🔙 Trở lại danh sách", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>

@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Miss1988.Models.KhuyenMai>
+
+<style>
+    .news-section-title {
+        font-size: 32px;
+        font-weight: bold;
+        color: #7d5a3c;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .news-card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        max-width: 350px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: white;
+    }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 4px solid #28a745;
+        }
+
+    .card-body {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .news-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #28a745;
+        color: white;
+        font-size: 12px;
+        padding: 5px 8px;
+        border-radius: 3px;
+        z-index: 2;
+    }
+
+    .news-title {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    .news-date {
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 4px;
+    }
+
+    .news-description {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.4;
+        max-height: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .voucher {
+        font-size: 13px;
+        font-weight: 600;
+        color: #d32f2f;
+        margin-bottom: 4px;
+    }
+
+    .news-card .btn {
+        font-size: 13px;
+        padding: 4px 10px;
+        margin-top: auto;
+        align-self: flex-start;
+    }
+</style>
+
+<section class="news-section-title">KHUYẾN MÃI</section>
+
+<div class="container">
+    <div class="row justify-content-center">
+        @foreach (var km in Model)
+        {
+            var image = string.IsNullOrWhiteSpace(km.ImageUrl)
+                ? Url.Content("~/Content/Images/no-image.png")
+                : Url.Content(km.ImageUrl);
+
+            <div class="col-md-4 mb-4 d-flex">
+                <div class="card news-card">
+                    <div class="position-relative">
+                        <img src="@image" alt="@km.MoTa" />
+                        <span class="news-badge">ƯU ĐÃI</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="news-title">@km.MoTa</h6>
+                        <div class="voucher">🎁 Mã: @km.MaVoucher</div>
+                        <div class="news-date">@km.NgayBatDau?.ToString("dd/MM/yyyy") - @km.NgayKetThuc?.ToString("dd/MM/yyyy")</div>
+                        <p class="news-description">@km.DieuKienApDung</p>
+                        <a href="@Url.Action("Details", "KhuyenMai", new { id = km.KhuyenMaiID })"
+                           class="btn btn-outline-success btn-sm">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

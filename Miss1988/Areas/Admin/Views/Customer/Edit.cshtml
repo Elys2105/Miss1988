@@ -1,0 +1,50 @@
+﻿@model Miss1988.Models.NguoiDung
+@{
+    ViewBag.Title = "Chỉnh sửa người dùng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Chỉnh sửa người dùng</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.HoTen, htmlAttributes: new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.MatKhau, htmlAttributes: new { @class = "control-label" })
+            @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3">
+            @Html.LabelFor(m => m.QuyenID, "Quyền", htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownListFor(m => m.QuyenID,
+                     new List<SelectListItem>
+                     {
+                    new SelectListItem { Text = "Admin", Value = "1" },
+                    new SelectListItem { Text = "User", Value = "2" }
+                         },
+                     "-- Chọn quyền --",
+                     new { @class = "form-control" }
+                 )
+            @Html.ValidationMessageFor(m => m.QuyenID, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-success">Lưu</button>
+            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary ms-2" })
+        </div>
+    </div>
+}
