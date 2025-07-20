@@ -1,14 +1,102 @@
 ﻿<!DOCTYPE html>
 <style>
-    .main-header {
-        position: relative; /* hoặc sticky/fixed */
-        z-index: 1000; /* cao hơn dropdown */
-        background-color: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(10px);
-        padding: 10px 0;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    /* Font */
+    body {
+        font-family: 'Varela Round', sans-serif;
+        background-color: #fff;
+        color: #333;
+        margin: 0;
+        padding: 0;
     }
 
+    /* Container căn giữa */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Header tổng thể */
+    .main-header {
+        background: linear-gradient(to right, #614033, #4C2B08);
+        padding: 20px 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Logo */
+    .header-logo a {
+        font-size: 28px;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Menu */
+    .header-menu a {
+        margin-left: 25px;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 16px;
+        transition: color 0.3s;
+    }
+
+        .header-menu a:hover {
+            color: #ffdd57;
+        }
+
+    /* Features */
+    .features {
+        display: flex;
+        justify-content: center;
+        gap: 4rem;
+        padding: 3rem 2rem;
+        background-color: #f9f9f9;
+        text-align: center;
+    }
+
+    .feature-box {
+        width: 250px;
+    }
+
+        .feature-box .icon {
+            font-size: 2rem;
+        }
+
+        .feature-box h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .feature-box .subtext {
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+    /* Section Titles */
+    .section-title {
+        text-align: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .section-title .subtitle {
+            font-size: 0.95rem;
+            color: #777;
+        }
 
     .container {
         max-width: 1200px;
@@ -18,16 +106,18 @@
         align-items: center;
         justify-content: space-between;
     }
+
     .header-logo a {
         font-size: 28px;
         font-weight: bold;
-        color: #333; /* từ white chuyển thành xám đậm */
+        color: #fff; /* Giữ trắng cho nền nâu */
         text-decoration: none;
         font-family: 'Segoe UI', sans-serif;
     }
+
     .header-menu a {
         margin-left: 25px;
-        color: #333; /* từ white chuyển thành xám đậm */
+        color: #fff; /* Giữ trắng cho nền nâu */
         text-decoration: none;
         font-weight: 500;
         font-size: 16px;
@@ -35,8 +125,9 @@
     }
 
         .header-menu a:hover {
-            color: #764ba2; /* màu tím nhấn khi hover */
+            color: #ffdd57;
         }
+
     .dropdown {
         position: relative;
         display: inline-block;
@@ -49,7 +140,7 @@
         font-weight: 600;
         font-size: 16px;
         cursor: pointer;
-        color: #fff; /* hoặc #333 nếu nền sáng */
+        color: #fff;
         padding: 8px 12px;
     }
 
@@ -82,13 +173,48 @@
     .dropdown:hover .dropdown-menu {
         display: block;
     }
+
+    .search-bar {
+        max-width: 600px;
+        margin: 20px auto 40px;
+        text-align: center;
+    }
+
+        .search-bar input[type="text"] {
+            width: 70%;
+            padding: 10px 14px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px 0 0 6px;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #f98d2a;
+            color: #fff;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .search-bar button:hover {
+                background-color: #e67d19;
+            }
+    #suggestions div:hover {
+        background-color: #f98d2a;
+        color: white;
+    }
+
 </style>
+
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title - Miss1988</title>
-    <link href="~/Content/site.css" rel="stylesheet" />
 </head>
 <body>
     <header class="main-header">
@@ -127,6 +253,13 @@
         </div>
     </header>
     <main class="main-content">
+        <div class="search-bar">
+            <form action="@Url.Action("Search", "Menu")" method="get" autocomplete="off">
+                <input type="text" id="searchInput" name="keyword" placeholder="🔍 Tìm món bạn yêu thích..." />
+                <button type="submit">Tìm kiếm</button>
+            </form>
+            <div id="suggestions" style="position: absolute; background: #fff; width: 70%; margin-left: 15%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 999; border-radius: 6px; display: none;"></div>
+        </div>
         @RenderBody()
         @RenderSection("Scripts", required: false)
     </main>
@@ -184,5 +317,45 @@
             startAutoSlide();
         });
     </script>
+    <script>
+    $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+            const keyword = $(this).val().trim();
+            if (keyword.length === 0) {
+                $('#suggestions').hide().empty();
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("Suggest", "Menu")', // gọi tới action gợi ý
+                data: { term: keyword },
+                success: function (data) {
+                    if (data.length > 0) {
+                        let html = '';
+                        data.forEach(function (item) {
+                            html += `<div class="suggest-item" style="padding: 10px; cursor:pointer; border-bottom: 1px solid #eee;">${item}</div>`;
+                        });
+                        $('#suggestions').html(html).show();
+
+                        $('.suggest-item').on('click', function () {
+                            $('#searchInput').val($(this).text());
+                            $('#suggestions').hide();
+                        });
+                    } else {
+                        $('#suggestions').hide().empty();
+                    }
+                }
+            });
+        });
+
+        // Ẩn gợi ý khi click bên ngoài
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.search-bar').length) {
+                $('#suggestions').hide();
+            }
+        });
+    });
+    </script>
+
 </body>
 </html>

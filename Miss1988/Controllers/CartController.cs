@@ -89,18 +89,6 @@ namespace Miss1988.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Checkout()
-        {
-            var cart = GetCart();
-            if (!cart.Items.Any()) return RedirectToAction("Index");
-
-            var vm = new CheckoutVM
-            {
-                Cart = cart
-            };
-            return View(vm);
-        }
-
         [HttpPost]
         public ActionResult Checkout(CheckoutVM model)
         {
@@ -110,29 +98,33 @@ namespace Miss1988.Controllers
                 return View(model);
             }
 
-            // Tạo khách hàng
+            // 1. Lưu khách hàng
             var customer = new KhachHang
             {
                 HoTen = model.CustomerName,
                 Email = model.Email,
                 SoDienThoai = model.Phone,
                 DiaChi = model.Address,
-                NgayDangKy = DateTime.Now
+                NgayDangKy = DateTime.Now,
+                DiemTichLuy = 0 // nếu có
             };
             db.KhachHangs.Add(customer);
             db.SaveChanges();
 
-            // Tạo đơn hàng
+            // 2. Lưu đơn hàng
             var order = new ORDER
             {
                 NgayTao = DateTime.Now,
+                TrangThai = "Chưa xử lý",
                 KhachHangID = customer.KhachHangID,
-                TrangThai = "Chưa xử lý"
+                KhuyenMaiID = null, // hoặc gán nếu bạn có mã khuyến mãi
+                NguoiDungID = null, // nếu không phải admin tạo
+                ChiNhanhID = null   // nếu có nhiều chi nhánh
             };
             db.ORDERs.Add(order);
             db.SaveChanges();
 
-            // Chi tiết đơn hàng
+            // 3. Lưu chi tiết đơn hàng
             foreach (var item in model.Cart.Items)
             {
                 db.ChiTietOrders.Add(new ChiTietOrder
@@ -140,15 +132,19 @@ namespace Miss1988.Controllers
                     OrderID = order.OrderID,
                     MonID = item.ProductId,
                     SoLuong = item.Quantity,
-                    TrangThai = "Chờ xử lý"
+                    TrangThai = "Chờ xử lý",
+                    ThoiGianHoanTat = null
                 });
             }
 
             db.SaveChanges();
-            Session[CartSessionKey] = null; // clear cart
+
+            // 4. Xóa giỏ hàng
+            Session[CartSessionKey] = null;
 
             return RedirectToAction("Success");
         }
+
 
         public ActionResult Success()
         {
@@ -206,11 +202,15 @@ namespace Miss1988.Controllers
 
             return RedirectToAction("Index");
         }
-
         [HttpPost]
-        public ActionResult CheckoutWithOptions(int productId, string selectedSize, string[] selectedToppings)
+        public ActionResult CheckoutWithOptions(int? productId, string selectedSize, string[] selectedToppings)
         {
-            var product = db.Mons.Find(productId);
+            if (productId == null)
+            {
+                return new HttpStatusCodeResult(400, "Thiếu productId");
+            }
+
+            var product = db.Mons.Find(productId.Value);
             if (product == null) return HttpNotFound();
 
             string extraInfo = $"Size: {selectedSize}";
@@ -219,7 +219,6 @@ namespace Miss1988.Controllers
                 extraInfo += "; Topping: " + string.Join(", ", selectedToppings);
             }
 
-            // Tạo cart tạm thời
             var cart = new CartVM();
             cart.Items.Add(new CartItemVM
             {
@@ -238,5 +237,6 @@ namespace Miss1988.Controllers
 
             return View("Checkout", model);
         }
+
     }
 }

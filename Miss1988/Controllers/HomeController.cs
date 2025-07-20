@@ -89,4 +89,16 @@ public class HomeController : Controller
 
         return View("ProductOptions", vm);
     }
+    public ActionResult Search(string keyword)
+    {
+        ViewBag.NhomMons = db.NhomMons.ToList();
+        ViewBag.CurrentCategoryName = $"Tìm: {keyword}";
+
+        var results = db.Mons
+            .Where(m => m.TenMon.Contains(keyword) || m.MoTa.Contains(keyword))
+            .ToList();
+
+        return View("Index", results);
+    }
+
 }
