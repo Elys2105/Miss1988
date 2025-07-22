@@ -7,9 +7,6 @@
         <dt>Tên nhóm</dt>
         <dd>@Html.DisplayFor(m => m.TenNhom)</dd>
 
-        <dt>Mô tả</dt>
-        <dd>@Html.DisplayFor(m => m.MoTa)</dd>
-
         <dt>Hình ảnh</dt>
         <dd>
             <img src="@Url.Content(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "~/Content/Images/no-image.png")"

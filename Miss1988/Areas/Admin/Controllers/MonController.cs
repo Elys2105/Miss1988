@@ -34,12 +34,23 @@ namespace Miss1988.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Mon mon, HttpPostedFileBase ImageFile)
         {
+            // Xử lý chuyển đổi nếu GiaBan có dấu chấm ngăn cách
+            var giaBanRaw = Request["GiaBan"];
+            if (!string.IsNullOrEmpty(giaBanRaw))
+            {
+                giaBanRaw = giaBanRaw.Replace(".", "").Trim();
+                decimal giaBan;
+                if (decimal.TryParse(giaBanRaw, out giaBan))
+                {
+                    mon.GiaBan = giaBan;
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 db.Mons.Add(mon);
                 db.SaveChanges();
 
-                // Lưu ảnh sau khi có MonID
                 SaveImage(ImageFile, mon);
 
                 return RedirectToAction("Index");
@@ -48,6 +59,7 @@ namespace Miss1988.Areas.Admin.Controllers
             ViewBag.NhomMonID = new SelectList(db.NhomMons, "NhomMonID", "TenNhom", mon.NhomMonID);
             return View(mon);
         }
+
 
         // GET: Admin/Mon/Edit/5
         public ActionResult Edit(int? id)
@@ -66,6 +78,17 @@ namespace Miss1988.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Mon mon, HttpPostedFileBase ImageFile)
         {
+            var giaBanRaw = Request["GiaBan"];
+            if (!string.IsNullOrEmpty(giaBanRaw))
+            {
+                giaBanRaw = giaBanRaw.Replace(".", "").Trim();
+                decimal giaBan;
+                if (decimal.TryParse(giaBanRaw, out giaBan))
+                {
+                    mon.GiaBan = giaBan;
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(mon).State = EntityState.Modified;

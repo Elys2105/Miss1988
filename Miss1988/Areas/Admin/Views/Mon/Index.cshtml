@@ -26,7 +26,7 @@
         {
             <tr>
                 <td>@item.TenMon</td>
-                <td>@(item.GiaBan.HasValue ? item.GiaBan.Value.ToString("N0") + " đ" : "0 đ")</td>
+                <td>@(item.GiaBan.HasValue ? string.Format("{0:0,0} đ", item.GiaBan.Value) : "0 đ")</td>
                 <td>@(item.NhomMon != null ? item.NhomMon.TenNhom : "Chưa phân loại")</td>
                 <td>@item.MoTa</td>
                 <td>

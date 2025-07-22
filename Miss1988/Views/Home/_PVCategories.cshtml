@@ -1,91 +1,102 @@
 ﻿@model IEnumerable<Miss1988.Models.ViewModel.CategoryVM>
+<!-- SwiperJS CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- SwiperJS JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <style>
     .categories {
         max-width: 1200px;
-        margin: 0 auto;
+        margin: 40px auto;
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
+        justify-content: center;
+        gap: 24px;
+    }
+
+    .swiper {
+        width: 100%;
+        padding: 30px 0;
+    }
+
+    .swiper-slide {
+        width: auto;
     }
 
     .category-card {
-        position: relative;
-        width: 300px;
-        height: 200px;
-        overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s;
+        width: 200px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        padding: 20px 16px;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
     }
 
         .category-card:hover {
-            transform: scale(1.03);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
         }
 
         .category-card img {
             width: 100%;
-            height: 100%;
+            height: 140px;
             object-fit: cover;
-            display: block;
-            transition: opacity 0.3s;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            transition: filter 0.3s;
         }
 
-        .category-card .overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            top: 0;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            opacity: 0;
-            transition: opacity 0.4s;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .category-card:hover .overlay {
-            opacity: 1;
+        .category-card:hover img {
+            filter: brightness(1.08);
         }
 
         .category-card h4 {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: white;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
-            z-index: 2;
-            text-shadow: 1px 1px 2px black;
+            color: #222;
+            margin: 0;
+            text-decoration: underline;
         }
+
+    .desc-hidden {
+        display: none;
+    }
 </style>
 
-<div class="categories">
-    @if (Model != null && Model.Any())
-    {
-        foreach (var item in Model)
-        {
-            <div class="category-card">
-                <a href="@Url.Action("Menu", "Menu", new { categoryId = item.NhomMonID })#category-@item.NhomMonID">
-                    <img src="@Url.Content(item.ImageUrl ?? "~/Content/Images/no-image.png")" alt="@item.TenNhom" />
-                    <div class="overlay">
-                        <p>@item.MoTa</p>
-                    </div>
-                    <h4>@item.TenNhom</h4>
-                </a>
-            </div>
 
-        }
-    }
-    else
-    {
-        <p>Không có danh mục nào.</p>
-    }
-</div>
+
+<!-- Swiper wrapper -->
+<div class="categories">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="swiper-slide">
+                        <a class="category-card" href="@Url.Action("Index", "Menu", new { tenNhom = item.TenNhom })">
+                            <img src="@Url.Content(item.ImageUrl ?? "~/Content/Images/no-image.png")" alt="@item.TenNhom" />
+                            <h4>@item.TenNhom</h4>
+                            <p class="desc-hidden">@item.MoTa</p>
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="swiper-slide">Không có danh mục nào.</div>
+            }
+        </div>
+    </div>
+    </div>
+    <script>
+        const swiper = new Swiper(".mySwiper", {
+            slidesPerView: "auto",
+            spaceBetween: 20,
+            freeMode: true,
+            grabCursor: true
+        });
+    </script> 

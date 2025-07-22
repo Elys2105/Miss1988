@@ -1,20 +1,17 @@
 ﻿@model Miss1988.Models.NhomMon
 
+<!-- Nếu đang Edit thì cần gửi hidden ID -->
+@if (Model != null && Model.NhomMonID > 0)
+{
+    @Html.HiddenFor(m => m.NhomMonID)
+}
+
 <!-- Tên nhóm -->
 <div class="form-group">
     @Html.LabelFor(m => m.TenNhom, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         @Html.EditorFor(m => m.TenNhom, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(m => m.TenNhom, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<!-- Mô tả -->
-<div class="form-group">
-    @Html.LabelFor(m => m.MoTa, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.TextAreaFor(m => m.MoTa, new { @class = "form-control", rows = 3 })
-        @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "text-danger" })
     </div>
 </div>
 
@@ -34,4 +31,3 @@
         @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
     </div>
 </div>
-}

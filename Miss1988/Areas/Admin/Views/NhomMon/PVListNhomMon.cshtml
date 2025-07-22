@@ -4,7 +4,6 @@
     <thead>
         <tr>
             <th>Tên nhóm</th>
-            <th>Mô tả</th>
             <th>Hình ảnh</th>
             <th>Thao tác</th>
         </tr>
@@ -14,7 +13,6 @@
         {
             <tr>
                 <td>@item.TenNhom</td>
-                <td>@item.MoTa</td>
                 <td>
                     <img src="@Url.Content(item.ImageUrl ?? "~/Content/Images/no-image.png")"
                          alt="@item.TenNhom"

@@ -64,18 +64,26 @@ namespace Miss1988.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Tìm lại bản ghi cũ trong DB
                 var existing = db.NhomMons.Find(nhomMon.NhomMonID);
                 if (existing == null)
                 {
                     return HttpNotFound("Nhóm món không tồn tại.");
                 }
 
+                // ✅ Cập nhật đầy đủ các trường
                 existing.TenNhom = nhomMon.TenNhom;
-                existing.ImageUrl = nhomMon.ImageUrl;
+                existing.MoTa = nhomMon.MoTa;
+
+                // ✅ Nếu không upload ảnh mới, giữ lại ảnh cũ
+                if (!string.IsNullOrWhiteSpace(nhomMon.ImageUrl))
+                {
+                    existing.ImageUrl = nhomMon.ImageUrl;
+                }
 
                 db.SaveChanges();
 
-                // Nếu có ảnh mới thì lưu lại
+                // ✅ Nếu có ảnh upload mới, xử lý lưu ảnh
                 SaveImage(ImageFile, existing);
 
                 return RedirectToAction("Index");
@@ -83,6 +91,7 @@ namespace Miss1988.Areas.Admin.Controllers
 
             return View(nhomMon);
         }
+
 
         // GET: Admin/NhomMon/Details/5
         public ActionResult Details(int? id)
